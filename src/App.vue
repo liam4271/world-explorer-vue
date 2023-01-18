@@ -16,6 +16,7 @@
           <th>Map</th>
         </tr>
       </thead>
+      <!-- liam -->
       <!-- je suis liam -->
       <tbody>
         <tr v-for="country in filteredCountries" v-bind:key="country.fifa">
