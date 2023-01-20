@@ -2,6 +2,7 @@
   <div>
     <h2>{{ title }}</h2>
     <input type="text" v-model="filter" />
+    <TypeMapSelector  :selectedTypeMap="localTypeMap" @TypeMapChange="updateLocalTypeMap"></TypeMapSelector>
     <currency-selector
       :currencies="allCurrencies"
       :selectedCurrency="baseCurrency"
@@ -72,6 +73,7 @@ import CountryFlag from "./components/CountryFlag.vue";
 import CountryMap from "./components/CountryMap.vue";
 import CountryExchangeRate from "./components/CountryExchangeRate.vue";
 import CurrencySelector from "./components/CurrencySelector.vue";
+import TypeMapSelector from "./components/TypeMapSelector.vue"
 
 export default {
   name: "App",
@@ -80,6 +82,7 @@ export default {
     CountryMap,
     CountryExchangeRate,
     CurrencySelector,
+    TypeMapSelector,
   },
   data() {
     return {
@@ -90,6 +93,7 @@ export default {
       targetComponent: "",
       targetCountry: null,
       targetCurrency: "",
+      localTypeMap: "m",
     };
   },
   methods: {
@@ -101,6 +105,9 @@ export default {
     },
     updateTargetCurrency(newCurrency) {
       this.targetCurrency = newCurrency;
+    },
+    updateLocalTypeMap(newTypeMap) {
+        this.localTypeMap = newTypeMap;
     },
     updateBaseCurrency(newCurrency) {
       this.baseCurrency = newCurrency;
@@ -138,8 +145,11 @@ export default {
 
       switch (this.targetComponent) {
         case "CountryFlag":
+          props.country = this.targetCountry;
+          break;
         case "CountryMap":
           props.country = this.targetCountry;
+          props.typeMap = this.localTypeMap;
           break;
         case "CountryExchangeRate":
           props.country = this.targetCountry;
@@ -159,6 +169,10 @@ export default {
         return {
           currencyChange: this.updateTargetCurrency,
           baseCurrencyChange: this.updateBaseCurrency,
+        };
+      if (this.targetComponent === "CountryMap")
+      return {
+        TypeMapChange: this.updateLocalTypeMap,
         };
 
       return {};

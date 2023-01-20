@@ -20,10 +20,14 @@ export default {
       type: Number,
       default: 2,
     },
+    typemap: {
+      type: String,
+      default: "m",
+    },
   },
   computed: {
     mapSrc: function () {
-      return `https://maps.google.com/maps?q=${this.query}&t=&z=${this.zoom}&ie=UTF8&iwloc=&output=embed`;
+      return `https://maps.google.com/maps?q=${this.query}&t=${this.typemap}&z=${this.zoom}&ie=UTF8&iwloc=&output=embed`;
     },
   },
 };

@@ -1,17 +1,25 @@
 <template>
-  <embedded-map :query="mapQuery" :zoom="areaZoom"></embedded-map>
+  <div class="mapsSetings">
+    <TypeMapSelector  :selectedTypeMap="typeMap" @TypeMapChange="updateLocalTypeMap" ></TypeMapSelector>
+    <embedded-map :query="mapQuery" :zoom="areaZoom" :typemap="typeMap" ></embedded-map>
+  </div>
 </template>
 <script>
 import EmbeddedMap from "./EmbeddedMap.vue";
+import TypeMapSelector from "./TypeMapSelector.vue";
 
 export default {
   name: "CountryMap",
-  components: { EmbeddedMap },
+  components: { EmbeddedMap, TypeMapSelector },
   props: {
     country: {
       type: Object,
       default: null,
     },
+    typeMap:{
+      type: String,
+      default: "m",
+    }
   },
   computed: {
     mapQuery: function () {
@@ -33,6 +41,16 @@ export default {
       return 9;
     },
   },
-  methods: {},
+  methods: {
+    updateLocalTypeMap(newTypeMap) {
+        this.$emit("TypeMapChange", newTypeMap) ;
+    },
+  }
 };
 </script>
+
+<style scoped>
+  .mapsSetings {
+    background-color: #ffffff;
+  }
+</style>
